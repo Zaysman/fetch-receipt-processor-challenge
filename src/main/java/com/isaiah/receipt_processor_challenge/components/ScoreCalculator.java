@@ -88,12 +88,12 @@ public class ScoreCalculator {
 	private static void trimmedItemLengthPoints(ArrayList<Item> items) {
 		//For each item description, if its trimmed length is a multiple of 3, multiply the length of the description by .2 and round up to the nearest int. That will be the points added.
 		for(Item item: items) {
-			String desc = item.getShortDescription().trim(); //get trimmed string
+			String desc = item.getShortDescription().trim(); //get trimmed item description
 			
 			//Check length of description
 			if(desc.length() % 3 == 0) {
 				//if
-				int points = (int) Math.ceil((float) item.getPrice() * .2f); //Calculate the points
+				int points = (int) Math.ceil(item.getPrice() * .2f); //Calculate the points
 				ScoreEntry scoreEntry = new ScoreEntry(points, "\"" + desc + "\" is " + desc.length() + " characters (a multiple of 3)\n" + "item price of " + item.getPrice() + " * 0.2 = " + (item.getPrice() * 0.2f) + ", rounded up to " + points + " points");
 				scoreBreakdown.addScoreEntry(scoreEntry);
 			}
@@ -102,11 +102,24 @@ public class ScoreCalculator {
 	}
 	
 	private static void purchaseDatePoints(LocalDate purchaseDate) {
+		int day = purchaseDate.getDayOfMonth();
 		
+		//Check to see if the day is odd by dividing it by 2
+		if(day % 2 == 1) { //If the remainder is odd, then the day number is odd. Therefore we confer the points
+			ScoreEntry scoreEntry = new ScoreEntry(6, "The purchase day is odd");
+			scoreBreakdown.addScoreEntry(scoreEntry);
+		}
 	}
 	
 	private static void purchaseTimePoints(LocalTime purchaseTime) {
+		LocalTime windowOpen = LocalTime.of(14, 00), windowClose = LocalTime.of(16, 00);
 		
+		//Check to see if purchase time is after 2:00pm and before 4:00pm.
+		if(purchaseTime.isAfter(windowOpen) && purchaseTime.isBefore(windowClose)) {
+			//If the purchase time is in the correct time window, then we confer the points
+			ScoreEntry scoreEntry = new ScoreEntry(10, "" + purchaseTime.getHour() + ":" + purchaseTime.getMinute() + " is between 2:00pm and 4:00pm");
+			scoreBreakdown.addScoreEntry(scoreEntry);
+		}
 	}
 	
 	
