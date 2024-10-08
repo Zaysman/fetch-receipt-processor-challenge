@@ -26,7 +26,7 @@ public class ReceiptRestController {
 	
 	
 	//POST Mapping to create Receipt. Returns the ID of the receipt.
-	@PostMapping(value= "/process")
+	@PostMapping(value= "/process", consumes = "application/json", produces = "application/json")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public String createReceipt(@RequestBody Receipt receipt) {
 		String receiptID = receiptService.createReceipt(receipt);
@@ -36,7 +36,7 @@ public class ReceiptRestController {
 	
 	
 	//GET Mapping to get the score for a receipt. Returns the score of the receipt.
-	@GetMapping(value = "/{id}/points")
+	@GetMapping(value = "/{id}/points", produces = "application/json")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public int calculateReceiptPoints(@PathVariable String id) {
 		Receipt receipt = ReceiptManager.searchReceiptByID(id);
