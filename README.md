@@ -12,4 +12,4 @@ cd your-repo
 docker build -t receipt-processor .
 
 3. Run the container
-4. docker run -p 8080:8080 receipt-processor
+docker run -p 8080:8080 receipt-processor
