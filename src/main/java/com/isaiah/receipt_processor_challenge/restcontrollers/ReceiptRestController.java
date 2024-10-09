@@ -14,7 +14,7 @@ import com.isaiah.receipt_processor_challenge.objects.Receipt;
 import com.isaiah.receipt_processor_challenge.objects.ReceiptManager;
 import com.isaiah.receipt_processor_challenge.services.ReceiptService;
 
-
+import com.isaiah.receipt_processor_challenge.objects.responseobjects.*;
 
 
 @RestController
@@ -27,21 +27,23 @@ public class ReceiptRestController {
 	
 	//POST Mapping to create Receipt. Returns the ID of the receipt.
 	@PostMapping(value= "/process", consumes = "application/json", produces = "application/json")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public String createReceipt(@RequestBody Receipt receipt) {
+	@CrossOrigin(origins = "*")
+	public IDResponseObject createReceipt(@RequestBody Receipt receipt) {
 		String receiptID = receiptService.createReceipt(receipt);
-		return receiptID;
+		IDResponseObject response = new IDResponseObject(receiptID);
+		return response;
 		
 	}
 	
 	
 	//GET Mapping to get the score for a receipt. Returns the score of the receipt.
 	@GetMapping(value = "/{id}/points", produces = "application/json")
-	@CrossOrigin(origins = "http://localhost:3000")
-	public int calculateReceiptPoints(@PathVariable String id) {
+	@CrossOrigin(origins = "*")
+	public PointsResponseObject calculateReceiptPoints(@PathVariable String id) {
 		Receipt receipt = ReceiptManager.searchReceiptByID(id);
 		int points = receiptService.calculateScore(receipt);
-		return points;
+		PointsResponseObject response = new PointsResponseObject(points);
+		return response;
 	}
 	
 	

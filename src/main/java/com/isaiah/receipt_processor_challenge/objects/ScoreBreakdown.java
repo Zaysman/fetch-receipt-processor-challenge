@@ -35,6 +35,12 @@ public class ScoreBreakdown {
 	}
 
 	public void addScoreEntry(ScoreEntry scoreEntry) {
+		//null check
+		if(scoreEntry == null) {
+			System.out.println("scoreEntry is null. Scores and total points will not be updated.");
+			return;
+		}
+		
 		this.scores.add(scoreEntry);
 		this.totalPoints += scoreEntry.getScoreValue();
 		

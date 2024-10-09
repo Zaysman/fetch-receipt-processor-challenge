@@ -12,7 +12,7 @@ public class ReceiptManager {
 	private static final Random random = new Random();
 
 
-	private static ArrayList<Receipt> receipts;
+	private static ArrayList<Receipt> receipts = new ArrayList<>();
 
 	public ReceiptManager() {
 		this(new ArrayList<>());
@@ -32,11 +32,23 @@ public class ReceiptManager {
 
 
 	public static void saveReceipt(Receipt receipt) {
+		//Perform null check
+		if(receipt == null) {
+			System.out.println("Attempted to save a null reference to ReceiptManager.");
+			return;
+		}
+		
 		receipt.setID(generateID()); //Generate an ID for the receipt so we can look for it later.
 		receipts.add(receipt); //Add the receipt to the receipts array list so we can search for it later.
 	}
 
 	public static Receipt searchReceiptByID(String searchID) {
+		//perform null check
+		if(searchID == null) {
+			System.out.println("searchID is null. Returning null value.");
+			return null;
+		}
+		
 		Receipt receipt = new Receipt();
 
 		for(int i = 0; i < receipts.size(); i++) {
@@ -79,6 +91,18 @@ public class ReceiptManager {
 	}
 
 	private static String generateString(int length) {
+		//perform input check: If length is negative, then print error message and 
+		if(length < 0) {
+			System.out.println("Length of " + length + " is invalid. Please pass a positive integer to generateString method. Returning empty string.");
+			return new String();
+		}
+		
+		//Perform input check: If length is zero
+		if(length == 0) {
+			System.out.println("Length is zero. Returning empty string.");
+			return new String();
+		}
+		
 		StringBuilder strBuilder = new StringBuilder(length);
 
 		//Loop through the desired length and add random characters from the pool
